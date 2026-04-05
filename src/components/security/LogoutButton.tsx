@@ -14,16 +14,7 @@ const LogoutButton: React.FC = () => {
   };
 
   if (!isAuthenticated) return null;
-  return (
-    <div>
-      <h1>Logged out of Task Dashboard</h1>
-      <Button onClick={handleLogout}>Log Out</Button>
-      <p>
-        Thank you for using the Task Dashboard. Clicking the logout button will
-        log you out
-      </p>
-    </div>
-  );
+  return <Button onClick={handleLogout}>Log Out</Button>;
 };
 
 export default LogoutButton;
