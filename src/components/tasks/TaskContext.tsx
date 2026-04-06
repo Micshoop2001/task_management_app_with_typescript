@@ -58,7 +58,11 @@ export const useTasks = () => {
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(itemReducer, undefined, getInitialTaskState);
+  const [state, dispatch] = useReducer(
+    itemReducer,
+    undefined,
+    getInitialTaskState,
+  );
   const [editingItemId, setEditingItemId] = React.useState<number | null>(null);
   const [editingTask, setEditingTask] = React.useState("");
   const [editingDescription, setEditingDescription] = React.useState("");
