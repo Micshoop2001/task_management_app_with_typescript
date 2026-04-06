@@ -29,7 +29,7 @@ const ItemComponent: React.FC = () => {
       description: itemDescription,
       status: "pending",
       priority: "medium",
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     };
     dispatch({ type: "ADD_ITEM", payload: newItem });
     setItemName("");
@@ -123,7 +123,9 @@ const ItemComponent: React.FC = () => {
                     <option value="high">High</option>
                   </select>
                 </td>
-                <td className="form">{item.createdAt.toLocaleDateString()}</td>
+                <td className="form">
+                  {new Date(item.createdAt).toLocaleDateString()}
+                </td>
                 <td className="form">
                   <button
                     onClick={() => removeItem(item.id)}

@@ -17,15 +17,8 @@ const getInitialTaskState = () => {
   }
 
   try {
-    const parsedItems = JSON.parse(storedItems) as Array<
-      Omit<Item, "createdAt"> & { createdAt: string }
-    >;
-
     return {
-      items: parsedItems.map((item) => ({
-        ...item,
-        createdAt: new Date(item.createdAt),
-      })),
+      items: JSON.parse(storedItems) as Item[],
     };
   } catch {
     return { items: [] };
