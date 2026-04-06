@@ -33,6 +33,7 @@ const ItemComponent: React.FC = () => {
     };
     dispatch({ type: "ADD_ITEM", payload: newItem });
     setItemName("");
+    setItemDescription("");
   };
 
   const removeItem = (itemId: number) => {

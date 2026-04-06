@@ -20,7 +20,11 @@ const itemReducer = (
         ...state,
         items: state.items.map((item) =>
           item.id === action.payload.id
-            ? { ...item, task: action.payload.task }
+            ? {
+                ...item,
+                task: action.payload.task,
+                description: action.payload.description,
+              }
             : item,
         ),
       };
@@ -42,6 +46,8 @@ const itemReducer = (
             : item,
         ),
       };
+    default:
+      return state;
   }
 };
 

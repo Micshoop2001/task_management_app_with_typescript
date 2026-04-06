@@ -1,7 +1,36 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import type { Item } from "./Item";
 import type ItemComponentActions from "./ItemComponentActions";
 import itemReducer from "./ItemReducer";
+
+const TASKS_STORAGE_KEY = "task-management-items";
+
+const getInitialTaskState = () => {
+  if (typeof window === "undefined") {
+    return { items: [] };
+  }
+
+  const storedItems = window.localStorage.getItem(TASKS_STORAGE_KEY);
+
+  if (!storedItems) {
+    return { items: [] };
+  }
+
+  try {
+    const parsedItems = JSON.parse(storedItems) as Array<
+      Omit<Item, "createdAt"> & { createdAt: string }
+    >;
+
+    return {
+      items: parsedItems.map((item) => ({
+        ...item,
+        createdAt: new Date(item.createdAt),
+      })),
+    };
+  } catch {
+    return { items: [] };
+  }
+};
 
 type TaskContextType = {
   state: { items: Item[] };
@@ -29,10 +58,14 @@ export const useTasks = () => {
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(itemReducer, { items: [] });
+  const [state, dispatch] = useReducer(itemReducer, undefined, getInitialTaskState);
   const [editingItemId, setEditingItemId] = React.useState<number | null>(null);
   const [editingTask, setEditingTask] = React.useState("");
   const [editingDescription, setEditingDescription] = React.useState("");
+
+  useEffect(() => {
+    window.localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(state.items));
+  }, [state.items]);
 
   const contextValue: TaskContextType = {
     state,
